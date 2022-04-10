@@ -3,6 +3,9 @@ import Botao from "../Botao";
 import style from './Formulario.module.scss'
 
 export default function Formulario(){
+    const handleClick = () => {
+        console.log('testando click')
+    }
     return(
         <form className={style.novaTarefa}>
             <div className={style.inputContainer}>
@@ -27,7 +30,10 @@ export default function Formulario(){
                     required
                 />
             </div>
-            <Botao/>
+            <Botao 
+                text="adicionar"
+                click={handleClick}
+            />
         </form>
     )
 }

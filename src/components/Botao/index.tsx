@@ -1,10 +1,19 @@
 import React from "react";
 import style from './Botao.module.scss'
 
-export default function Botao(){
+interface button {
+    text: String;
+    click: () => void; 
+    
+}
+
+export default function Botao({click, text}: button){
     return(
-        <button className={style.botao}>
-            Botão
+        <button 
+            className={style.botao}
+            onClick={click}
+        >
+            {text}
         </button>
     )
 }
