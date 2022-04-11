@@ -3,15 +3,18 @@ import style from './Botao.module.scss'
 
 interface button {
     text: String;
-    click: () => void; 
+    type?: "button" | "submit" | "reset" | undefined;
+    onClick?: () => void; 
     
 }
 
-export default function Botao({click, text}: button){
+export default function Botao({text, type = "button", onClick}: button){
+
     return(
-        <button 
+        <button
+            type={type}
             className={style.botao}
-            onClick={click}
+            onClick={onClick}
         >
             {text}
         </button>
