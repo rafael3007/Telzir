@@ -1,70 +1,108 @@
 import React, { useState } from "react";
-import { ITarefa } from "../../types/tarefa";
 import Botao from "../Botao";
+import Modal from "../Modal";
+
 import style from './Formulario.module.scss'
-import { v4 as uuidv4 } from "uuid";
 
-interface Props {
-    setTarefas: React.Dispatch<React.SetStateAction<ITarefa[]>>
-}
 
-export default function Formulario({setTarefas}:Props){
-    const [tempo,setTempo] = useState("00:00:00")
-    const [tarefa,setTafera] = useState("")
+export default function Formulario(){
+    const [codCaller,setCodCaller] = useState("");
+    const [codReceiver,setCodReceiver] = useState("")
+    const [time,setTime] = useState("00:00:00")
+    const [plan,setPlan] = useState("")
+    const [isVisible,SetIsVisible] = useState(false)
 
-    const resetInput = () => {
-        setTempo("00:00:00")
-        setTafera("")
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        //not refresh page
+        event.preventDefault()
+
+        //send data and return calc
+        console.log({
+            caller: codCaller,
+            receiber: codReceiver,
+            time: time,
+            plan: plan
+        })
+        SetIsVisible(true)
+        //show result
+
+
     }
 
-    const handleAddTarefa = (event:React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-        setTarefas(tarefasAntigas => 
-            [
-                ...tarefasAntigas,
-                {
-                    tarefa,tempo,
-                    selecionado: false,
-                    completado: false,
-                    id: uuidv4()
-                }
-            ]
-        )
-        resetInput()
+    const handleCloseModal = () =>{
+        SetIsVisible(false)
     }
     
     return(
-        <form className={style.novaTarefa} onSubmit={handleAddTarefa}>
+        <form className={style.novaTarefa} onSubmit={handleSubmit}>
             <div className={style.inputContainer}>
-                <label htmlFor="tarefa">Adicione um novo estudo</label>
+                <label htmlFor="tarefa">Seu numero</label>
                 <input 
                     type={"text"}
-                    name="tarefa" 
-                    id="tarefa"
-                    value={tarefa}
-                    onChange={event => setTafera(event.target.value)}
-                    placeholder="O que você quer estudar?"
-                    required
+                    name="codCaller" 
+                    id="codCaller"
+                    value={codCaller}
+                    onChange={event=>setCodCaller(event.target.value)}
+                    placeholder="Digite o codigo de origem"
+                    
                 />
             </div>
             <div className={style.inputContainer}>
-                <label htmlFor="tempo">Tempo</label>
+                <label htmlFor="tempo">Numero a receber a chamada</label>
                 <input 
-                    type={"time"} 
-                    step="1" 
-                    name="tempo" 
-                    id="tempo"
-                    value={tempo}
-                    onChange={event =>setTempo(event.target.value)}
-                    min={"00:00:00"} 
-                    max={"01:30:00"}
-                    required
+                    type={"text"} 
+                    name="codReceiver" 
+                    id="codReceiver"
+                    value={codReceiver}
+                    onChange={event=>setCodReceiver(event.target.value)}
+                    placeholder="Digite o Numero de Destino"
+                    
                 />
+            </div>
+            <div className={style.inputContainer}>
+                <label htmlFor="tempo">Tempo da ligação</label>
+                <input 
+                
+                    type={"time"} 
+                    name="codReceiver" 
+                    id="codReceiver"
+                    value={time}
+                    onChange={event=>setTime(event.target.value)}
+                    placeholder="Digite o tempo da ligação"
+                    
+                />
+                
+            </div>
+            <div>
+                <label>
+                Escolha seu plano
+                <select value={plan} onChange={event=>setPlan(event.target.value)}>
+                    <option value="01">01</option>
+                    <option value="02">02</option>
+                    <option value="03">03</option>
+                    <option value="04">04</option>
+                </select>
+                </label>
+
             </div>
             <Botao 
                 type="submit"
-                text="adicionar!"
+                text="Calcular!"
             />
+            {isVisible && <Modal onClick={handleCloseModal}/>}
         </form>
+       
+        
     )
 }
+
+/**
+ * 
+ * <datalist id="browsers">
+                    <option value="Edge">
+                    <option value="Firefox">
+                    <option value="Chrome">
+                    <option value="Opera">
+                    <option value="Safari">
+                </datalist>
+ */
